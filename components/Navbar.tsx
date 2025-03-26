@@ -3,98 +3,74 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { styles } from "@/constants/styles";
 import { navLinks } from "@/constants";
-import { close, menu } from "@/constants/assets";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
-	const [active, setActive] = useState("");
-	const [toggle, setToggle] = useState(false);
-	const [scrolled, setScrolled] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
-		const handleScroll = () => {
-			const scrollTop = window.scrollY;
-			if (scrollTop > 100) {
-				setScrolled(true);
-			} else {
-				setScrolled(false);
-			}
-		};
-
-		window.addEventListener("scroll", handleScroll);
-
-		return () => window.removeEventListener("scroll", handleScroll);
+		setIsMounted(true);
 	}, []);
+
+	if (!isMounted) return null;
 	return (
-		<nav
-			className={`${styles.paddingX} w-full flex items-center py-3 fixed top-0 z-20 bg-[#014A7F]`}
-		>
-			<div>
+		<header className="w-full bg-[#014A7F] p-4 shadow-md text-white fixed top-0 left-0 z-50">
+			<div className="container mx-auto flex justify-between items-center">
 				<Link
 					href="/"
-					className="flex items-center gap-2"
-					onClick={() => {
-						setActive("");
-						window.scrollTo(0, 0);
-					}}
+					className="text-xl font-bold text-white hover:text-gray-500 hover:opacity-75"
 				>
-					<p className="text-white text-[22px] font-bold cursor-pointer flex">
-						COMPASSION AI
-					</p>
+					COMPASSION AI
 				</Link>
-
-				<ul className="list-none hidden sm:flex flex-row gap-5">
-					{navLinks.map((nav) => (
-						<li
-							key={nav.id}
-							className={`${
-								active === nav.title
-									? "text-white"
-									: "text-[#aaa6c3]"
-							} hover:text-white text-[18px] font-medium cursor-pointer`}
-							onClick={() => setActive(nav.title)}
+				<nav className="hidden md:flex space-x-6 flex-grow justify-end">
+					{navLinks.map((item) => (
+						<Link
+							key={item.id}
+							href={item.title}
+							className="text-black hover:text-white font-medium transition duration-300"
 						>
-							<a href={`#${nav.id}`}>{nav.title}</a>
-						</li>
+							{item.title}
+						</Link>
 					))}
-				</ul>
+				</nav>
 
-				<div className="sm:hidden flex flex-1 justify-end items-center">
-					<img
-						src={toggle ? close : menu}
-						alt="menu"
-						className="w-[28px] h-[28px] object-contain"
-						onClick={() => setToggle(!toggle)}
-					/>
-
-					<div
-						className={`${
-							!toggle ? "hidden" : "flex"
-						} p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
-					>
-						<ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
-							{navLinks.map((nav) => (
-								<li
-									key={nav.id}
-									className={`font-poppins font-medium cursor-pointer text-[16px] ${
-										active === nav.title
-											? "text-white"
-											: "text-[#aaa6c3]"
-									}`}
-									onClick={() => {
-										setToggle(!toggle);
-										setActive(nav.title);
-									}}
-								>
-									<a href={`#${nav.id}`}>{nav.title}</a>
-								</li>
-							))}
-						</ul>
-					</div>
+				{/* Mobile Menu */}
+				<div className="md:hidden">
+					<Sheet open={isOpen} onOpenChange={setIsOpen}>
+						<SheetTrigger asChild>
+							<Button
+								variant="ghost"
+								size="icon"
+								className="text-white hover:text-blue-600"
+							>
+								<Menu className="w-6 h-6" />
+							</Button>
+						</SheetTrigger>
+						<SheetContent
+							side="left"
+							className="bg-white p-6 w-64 shadow-lg"
+						>
+							<div className="flex flex-col space-y-4 mt-6">
+								{navLinks.map((item) => (
+									<Link
+										key={item.id}
+										href={item.title}
+										className="text-lg text-gray-700 hover:text-blue-600 font-medium transition duration-300"
+										onClick={() => setIsOpen(false)}
+									>
+										{item.title}
+									</Link>
+								))}
+							</div>
+						</SheetContent>
+					</Sheet>
 				</div>
 			</div>
-		</nav>
+		</header>
 	);
 };
 
