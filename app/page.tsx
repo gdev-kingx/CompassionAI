@@ -1,9 +1,12 @@
+import Navbar from "@/components/Navbar";
 import React from "react";
 
 const Main = () => {
 	return (
-		<div className="flex flex-col items-center justify-center h-screen">
-			<h1 className="font-bold text-4xl underline">Hello World!</h1>
+		<div className="relative z-0">
+			<div className="bg-cover bg-no-repeat bg-center">
+				<Navbar />
+			</div>
 		</div>
 	);
 };
