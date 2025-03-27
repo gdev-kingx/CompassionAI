@@ -19,10 +19,10 @@ const Navbar = () => {
 	if (!isMounted) return null;
 	return (
 		<header className="w-full bg-[#014A7F] p-4 shadow-md text-white fixed top-0 left-0 z-50">
-			<div className="container mx-auto flex justify-between items-center">
+			<div className="container mx-auto px-10 flex justify-between items-center">
 				<Link
 					href="/"
-					className="text-xl font-bold text-white hover:text-gray-500 hover:opacity-75"
+					className="text-xl font-bold text-white hover:text-gray-300 hover:opacity-75"
 				>
 					COMPASSION AI
 				</Link>
@@ -30,8 +30,8 @@ const Navbar = () => {
 					{navLinks.map((item) => (
 						<Link
 							key={item.id}
-							href={item.title}
-							className="text-black hover:text-white font-medium transition duration-300"
+							href={item.id}
+							className="text-white hover:text-gray-400 font-medium transition duration-300"
 						>
 							{item.title}
 						</Link>
@@ -58,7 +58,7 @@ const Navbar = () => {
 								{navLinks.map((item) => (
 									<Link
 										key={item.id}
-										href={item.title}
+										href={item.id}
 										className="text-lg text-gray-700 hover:text-blue-600 font-medium transition duration-300"
 										onClick={() => setIsOpen(false)}
 									>
