@@ -8,7 +8,7 @@ export default function Home() {
 		<div className="flex flex-col min-h-screen">
 			<Navbar />
 			{/* Hero Section */}
-			<section className="py-16 px-16 bg-[#FEF9F8] text-center relative">
+			<section className="px-16 py-16 bg-[#FEF9F8] flex justify-center items-center text-center relative h-[430px]">
 				<div className="container mx-auto px-4">
 					<div className="max-w-3xl mx-auto">
 						<h1 className="text-3xl md:text-4xl font-bold text-black leading-tight">
